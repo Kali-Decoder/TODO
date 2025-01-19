@@ -1,10 +1,10 @@
 node_modules
 .env
-
+# 0xc3B6342Ac62d6Fce5778921B1882E21916bd7888
 # Hardhat files
 /cache
 /artifacts
-
+/ignition/modules
 # TypeChain files
 /typechain
 /typechain-types
