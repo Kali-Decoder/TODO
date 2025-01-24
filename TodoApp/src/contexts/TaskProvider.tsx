@@ -4,8 +4,21 @@ import { useStorageState } from "../hooks/useStorageState";
 import { HighlightedText } from "../components/tasks/tasks.styled";
 import { useResponsiveDisplay } from "../hooks/useResponsiveDisplay";
 import { TaskContext, TaskContextType } from "./TaskContext";
+import { useAccount } from "wagmi";
+import { useEthersSigner } from "@/helper/signer";
+import { ethers, BigNumber, Contract } from "ethers";
 
 export const TaskProvider = ({ children }: { children: ReactNode }) => {
+  const { address, chain } = useAccount();
+  const [activeChain, setActiveChainId] = useState<number | undefined>(
+    chain?.id
+  );
+  useEffect(() => {
+    setActiveChainId(chain?.id);
+  }, [chain?.id]);
+
+
+
   const [selectedTaskId, setSelectedTaskId] = useState<UUID | null>(null);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [anchorPosition, setAnchorPosition] = useState<{ top: number; left: number } | null>(null);
@@ -15,6 +28,11 @@ export const TaskProvider = ({ children }: { children: ReactNode }) => {
     "selectedTasks",
     "sessionStorage",
   );
+  const signer = useEthersSigner({ chainId: activeChain });
+
+
+  
+
   const [search, setSearch] = useStorageState<string>("", "search", "sessionStorage");
   const [editModalOpen, setEditModalOpen] = useState<boolean>(false);
 
